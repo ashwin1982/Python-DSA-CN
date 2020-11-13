@@ -1,0 +1,1069 @@
+Problem 1:
+
+Reverse LL (Recursive)
+Send Feedback
+Given a singly linked list of integers, reverse it using recursion and return the head to the modified list.
+ Note :
+No need to print the list, it has already been taken care. Only return the new head to the list.
+Input format :
+The first line contains an Integer 't' which denotes the number of test cases or queries to be run. Then the test cases follow.
+
+The first and the only line of each test case or query contains the elements of the singly linked list separated by a single space.
+Remember/Consider :
+While specifying the list elements for input, -1 indicates the end of the singly linked list and hence, would never be a list element
+Output format :
+For each test case/query, print the elements of the updated singly linked list.
+
+Output for every test case will be printed in a seperate line.
+ Constraints :
+1 <= t <= 10^2
+0 <= M <= 10^4
+Where M is the size of the singly linked list.
+
+Time Limit: 1sec
+Sample Input 1 :
+1
+1 2 3 4 5 6 7 8 -1
+Sample Output 1 :
+8 7 6 5 4 3 2 1
+Sample Input 2 :
+2
+10 -1
+10 20 30 40 50 -1
+Sample Output 2 :
+10 
+50 40 30 20 10 
+
+Soln:
+
+from sys import stdin, setrecursionlimit
+setrecursionlimit(10 ** 6)
+
+#Following is the Node class already written for the Linked List
+class Node :
+    def __init__(self, data) :
+        self.data = data
+        self.next = None
+
+
+
+def reverseLinkedListRec(head):
+   if(head == None): 
+       return head 
+   if(head.next == None): 
+       return head 
+   head1 = reverseLinkedListRec(head.next) 
+   head.next.next = head 
+   head.next = None
+   return head1 
+
+
+
+Problem 2 :
+
+Reverse LL (Iterative)
+Send Feedback
+Given a singly linked list of integers, reverse it iteratively and return the head to the modified list.
+ Note :
+No need to print the list, it has already been taken care. Only return the new head to the list.
+Input format :
+The first line contains an Integer 't' which denotes the number of test cases or queries to be run. Then the test cases follow.
+
+The first and the only line of each test case or query contains the elements of the singly linked list separated by a single space.
+Remember/Consider :
+While specifying the list elements for input, -1 indicates the end of the singly linked list and hence, would never be a list element
+Output format :
+For each test case/query, print the elements of the updated singly linked list.
+
+Output for every test case will be printed in a separate line.
+ Constraints :
+1 <= t <= 10^2
+0 <= N <= 10^4
+Where N is the size of the singly linked list.
+
+Time Limit: 1 sec
+Sample Input 1 :
+1
+1 2 3 4 5 6 7 8 -1
+Sample Output 1 :
+8 7 6 5 4 3 2 1
+Sample Input 2 :
+2
+10 -1
+10 20 30 40 50 -1
+Sample Output 2 :
+10 
+50 40 30 20 10 
+
+Soln:
+
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+def reverse(head):
+        prev = None
+        current = head 
+        while(current is not None): 
+            next = current.next
+            current.next = prev 
+            prev = current 
+            current = next
+        head = prev 
+        return head
+        pass
+
+def ll(arr):
+    if len(arr)==0:
+        return None
+    head = Node(arr[0])
+    last = head
+    for data in arr[1:]:
+        last.next = Node(data)
+        last = last.next
+    return head
+
+def printll(head):
+    while head:
+        print(head.data, end=' ')
+        head = head.next
+    print()
+
+# Main
+# Read the link list elements including -1
+arr=list(int(i) for i in input().strip().split(' '))
+# Create a Linked list after removing -1 from list
+l = ll(arr[:-1])
+l = reverse(l)
+printll(l)
+
+
+Problem 3 :
+
+Midpoint of Linked list
+Send Feedback
+For a given singly linked list of integers, find and return the node present at the middle of the list.
+Note :
+If the length of the singly linked list is even, then return the first middle node.
+
+Example: Consider, 10 -> 20 -> 30 -> 40 is the given list, then the nodes present at the middle with respective data values are, 20 and 30. We return the first node with data 20.
+ Input format :
+The first line contains an Integer 't' which denotes the number of test cases or queries to be run. Then the test cases follow.
+
+The first and the only line of each test case or query contains the elements of the singly linked list separated by a single space. 
+Remember/Consider :
+While specifying the list elements for input, -1 indicates the end of the singly linked list and hence, would never be a list element
+ Output Format :
+For each test case/query, print the data value of the node at the middle of the given list.
+
+Output for every test case will be printed in a seperate line.
+Constraints :
+1 <= t <= 10^2
+0 <= M <= 10^5 
+Where M is the size of the singly linked list.
+
+Time Limit: 1sec
+Sample Input 1 :
+1
+1 2 3 4 5 -1
+Sample Output 1 :
+3
+Sample Input 2 :
+2 
+-1
+1 2 3 4 -1
+Sample Output 2 :
+2
+
+Soln:
+
+from sys import stdin
+
+#Following is the Node class already written for the Linked List
+class Node :
+    def __init__(self, data) :
+        self.data = data
+        self.next = None
+
+
+
+def midPoint(head) :
+    #Your code goes here
+    if head is None or head.next is None:
+        return head
+    slow=head
+    fast=head.next
+    while fast is not None and fast.next is not None:
+        slow=slow.next
+        fast=fast.next.next
+    return slow
+
+#Taking Input Using Fast I/O
+def takeInput() :
+    head = None
+    tail = None
+
+    datas = list(map(int, stdin.readline().rstrip().split(" ")))
+
+    i = 0
+    while (i < len(datas)) and (datas[i] != -1) :
+        data = datas[i]
+        newNode = Node(data)
+
+        if head is None :
+            head = newNode
+            tail = newNode
+
+        else :
+            tail.next = newNode
+            tail = newNode
+
+        i += 1
+
+    return head
+
+
+#to print the linked list
+def printLinkedList(head) :
+
+    while head is not None :
+        print(head.data, end = " ")
+        head = head.next
+
+    print()
+
+
+#main
+t = int(stdin.readline().rstrip())
+while t > 0 :
+    
+    head = takeInput()
+    mid=midPoint(head)
+
+    if mid is not None:
+        print(mid.data)
+    t -= 1
+
+Problem 4 :
+
+Code : Merge two sorted LL
+Send Feedback
+You have been given two sorted(in ascending order) singly linked lists of integers.
+Write a function to merge them in such a way that the resulting singly linked list is also sorted(in ascending order) and return the new head to the list.
+Note :
+Try solving this in O(1) auxiliary space.
+
+No need to print the list, it has already been taken care.
+Input format :
+The first line contains an Integer 't' which denotes the number of test cases or queries to be run. Then the test cases follow.
+
+The first line of each test case or query contains the elements of the first sorted singly linked list separated by a single space. 
+
+The second line of the input contains the elements of the second sorted singly linked list separated by a single space. 
+Remember/Consider :
+While specifying the list elements for input, -1 indicates the end of the singly linked list and hence, would never be a list element
+Output :
+For each test case/query, print the resulting sorted singly linked list, separated by a single space.
+
+Output for every test case will be printed in a seperate line.
+Constraints :
+1 <= t = 10^2
+0 <= N <= 10 ^ 4
+0 <= M <= 10 ^ 4
+Where N and M denote the sizes of the singly linked lists. 
+
+Time Limit: 1sec
+Sample Input 1 :
+1
+2 5 8 12 -1
+3 6 9 -1
+Sample Output 1 :
+2 3 5 6 8 9 12 
+Sample Input 2 :
+2
+2 5 8 12 -1
+3 6 9 -1
+10 40 60 60 80 -1
+10 20 30 40 50 60 90 100 -1
+Sample Output 2 :
+2 3 5 6 8 9 12 
+10 10 20 30 40 40 50 60 60 60 80 90 100
+
+
+
+Soln:
+
+from sys import stdin
+
+#Following is the Node class already written for the Linked List
+class Node :
+    def __init__(self, data) :
+        self.data = data
+        self.next = None
+
+
+
+def mergeTwoSortedLinkedLists(head1,head2):
+    #Your code goes here
+    if (head1==None):
+        return head2
+    if (head2==None):
+        return head1
+    newHead, newTail=None, None
+    
+    if (head1.data<head2.data):
+        newHead=head1
+        newTail=head1
+        head1=head1.next
+    else:
+        newHead=head2
+        newTail=head2
+        head2=head2.next
+    
+    while (head1 and head2):
+        if head1.data<head2.data:
+            newTail.next=head1
+            newTail=newTail.next
+            head1=head1.next
+        else:
+            newTail.next=head2
+            newTail=newTail.next
+            head2=head2.next
+    if(head1 is not None):
+        newTail.next=head1
+    else:
+        newTail.next=head2
+    return newHead
+
+
+
+#Taking Input Using Fast I/O
+def takeInput() :
+    head = None
+    tail = None
+
+    datas = list(map(int, stdin.readline().rstrip().split(" ")))
+
+    i = 0
+    while (i < len(datas)) and (datas[i] != -1) :
+        data = datas[i]
+        newNode = Node(data)
+
+        if head is None :
+            head = newNode
+            tail = newNode
+
+        else :
+            tail.next = newNode
+            tail = newNode
+
+        i += 1
+
+    return head
+
+
+#to print the linked list
+def printLinkedList(head) :
+
+    while head is not None :
+        print(head.data, end = " ")
+        head = head.next
+
+    print()
+t = int(stdin.readline().rstrip())
+
+while t > 0 :
+    head1 = takeInput()
+    head2 = takeInput()
+    newHead = mergeTwoSortedLinkedLists(head1, head2)
+    printLinkedList(newHead)
+    t-=1
+
+
+
+
+Problem 5 :
+
+Code : Merge Sort
+Send Feedback
+ Given a singly linked list of integers, sort it using 'Merge Sort.'
+Note :
+No need to print the list, it has already been taken care. Only return the new head to the list.
+Input format :
+The first line contains an Integer 't' which denotes the number of test cases or queries to be run. Then the test cases follow.
+
+The first and the only line of each test case or query contains the elements of the singly linked list separated by a single space.
+Remember/Consider :
+While specifying the list elements for input, -1 indicates the end of the singly linked list and hence, would never be a list element
+Output format :
+For each test case/query, print the elements of the sorted singly linked list.
+
+Output for every test case will be printed in a seperate line.
+Constraints :
+1 <= t <= 10^2
+0 <= M <= 10^5
+Where M is the size of the singly linked list.
+
+Time Limit: 1sec
+Sample Input 1 :
+1
+10 9 8 7 6 5 4 3 -1
+Sample Output 1 :
+ 3 4 5 6 7 8 9 10 
+ Sample Output 2 :
+2
+-1
+10 -5 9 90 5 67 1 89 -1
+Sample Output 2 :
+-5 1 5 9 10 67 89 90 
+
+
+
+Soln:
+
+from sys import stdin, setrecursionlimit
+setrecursionlimit(10 ** 6)
+
+#Following is the Node class already written for the Linked List
+class Node :
+    def __init__(self, data) :
+        self.data = data
+        self.next = None
+
+def sortedMerge(a, b): 
+    
+    newHead = None
+    tail = None
+    
+    if a is None:
+        return b
+    elif b is None:
+        return a
+    
+    curr1 = a
+    curr2 = b
+    
+    while curr1 is not None and curr2 is not None:
+        
+        if curr1.data <= curr2.data:
+            if newHead is None:
+                newHead = curr1
+                tail = curr1
+            else:
+                tail.next = curr1
+                tail = curr1
+            curr1 = curr1.next
+            
+        else:
+            if newHead is None:
+                newHead = curr2
+                tail = curr2
+            else:
+                tail.next = curr2
+                tail = curr2
+            curr2 = curr2.next
+            
+    if curr1:
+        tail.next = curr1
+    elif curr2:
+        tail.next = curr2
+        
+    return newHead
+            
+
+def mergeSort(head) :
+    
+    if head is None or head.next is None:
+        return head
+    
+    middle = getMiddle(head)
+    nexttomiddle = middle.next
+    middle.next = None
+    left = mergeSort(head)
+    right = mergeSort(nexttomiddle)
+    sortedlist = sortedMerge(left, right)
+    return sortedlist
+
+
+def getMiddle(head): 
+        if (head == None): 
+            return head 
+        slow = head 
+        fast = head 
+        while (fast.next != None and fast.next.next != None): 
+            slow = slow.next
+            fast = fast.next.next
+        return slow 
+
+#Taking Input Using Fast I/O
+def takeInput() :
+    head = None
+    tail = None
+
+    datas = list(map(int, stdin.readline().rstrip().split(" ")))
+
+    i = 0
+    while (i < len(datas)) and (datas[i] != -1) :
+        data = datas[i]
+        newNode = Node(data)
+
+        if head is None :
+            head = newNode
+            tail = newNode
+
+        else :
+            tail.next = newNode
+            tail = newNode
+
+        i += 1
+
+    return head
+
+
+def printLinkedList(head) :
+
+    while head is not None :
+        print(head.data, end = " ")
+        head = head.next
+
+    print()
+
+
+#main
+t = int(stdin.readline().rstrip())
+
+while t > 0 :
+    
+    head = takeInput()
+
+    newHead = mergeSort(head)
+    printLinkedList(newHead)
+
+    t -= 1
+
+Problem 6 :
+
+Find a node in LL (recursive)
+Send Feedback
+Given a singly linked list of integers and an integer n, find and return the index for the first occurrence of 'n' in the linked list. -1 otherwise.
+Follow a recursive approach to solve this.
+Note :
+Assume that the Indexing for the linked list always starts from 0.
+ Input format :
+The first line contains an Integer 't' which denotes the number of test cases or queries to be run. Then the test cases follow.
+
+The first line of each test case or query contains the elements of the singly linked list separated by a single space.
+
+The second line of input contains a single integer depicting the value of 'n'.
+Remember/Consider :
+While specifying the list elements for input, -1 indicates the end of the singly linked list and hence, would never be a list element
+ Output format :
+For each test case/query, print the elements of the updated singly linked list.
+
+Output for every test case will be printed in a seperate line.
+ Constraints :
+1 <= t <= 10^2
+0 <= M <= 10^5
+Where M is the size of the singly linked list.
+
+Time Limit:  1sec
+Sample Input 1 :
+1
+3 4 5 2 6 1 9 -1
+100
+Sample Output 1 :
+-1
+Sample Input 2 :
+2
+10 20010 30 400 600 -1
+20010
+100 200 300 400 9000 -34 -1
+-34
+Sample Output 2 :
+1
+5
+
+
+
+Soln:
+
+from sys import stdin, setrecursionlimit
+setrecursionlimit(10 ** 6)
+
+#Following is the Node class already written for the Linked List
+class Node :
+    def __init__(self, data) :
+        self.data = data
+        self.next = None
+
+
+def findNodeRec(head, n) :
+    if head is None:
+        return -1
+    i=0 
+    while head is not None:
+        if head.data==n:
+            return i
+        i+=1
+        head=head.next
+    return -1
+
+
+Problem 7 :
+
+Even after Odd LinkedList
+Send Feedback
+For a given singly linked list of integers, arrange the elements such that all the even numbers are placed after the odd numbers. The relative order of the odd and even terms should remain unchanged.
+Note :
+No need to print the list, it has already been taken care. Only return the new head to the list.
+Input format:
+The first line contains an Integer 't' which denotes the number of test cases or queries to be run. Then the test cases follow.
+
+The first line of each test case or query contains the elements of the singly linked list separated by a single space. 
+ Remember/Consider :
+While specifying the list elements for input, -1 indicates the end of the singly linked list and hence, would never be a list element
+Output format:
+For each test case/query, print the elements of the updated singly linked list.
+
+Output for every test case will be printed in a seperate line.
+Constraints :
+1 <= t <= 10^2
+0 <= M <= 10^5
+Where M is the size of the singly linked list.
+
+Time Limit: 1sec
+Sample Input 1 :
+1
+1 4 5 2 -1
+Sample Output 1 :
+1 5 4 2 
+Sample Input 2 :
+2
+1 11 3 6 8 0 9 -1
+10 20 30 40 -1
+Sample Output 2 :
+1 11 3 9 6 8 0
+10 20 30 40
+
+
+
+Soln:
+
+from sys import stdin
+
+#Following is the Node class already written for the Linked List
+class Node :
+    def __init__(self, data) :
+        self.data = data
+        self.next = None
+
+
+def evenAfterOdd(head) :
+    if head is None:
+        return head
+    evenHead,oddHead,evenTail,oddTail=None,None,None,None
+    while head is not None:
+        if(head.data %2)==0:
+            if evenHead is None:
+                evenHead=head
+                evenTail=head
+                
+            else:
+                evenTail.next=head
+                evenTail=evenTail.next
+        else:
+            if oddHead is None:
+                oddHead=head
+                oddTail=head
+            else:
+                oddTail.next=head
+                oddTail=oddTail.next
+        head=head.next
+        
+    if oddHead is None:
+        return evenHead
+    else:
+        oddTail.next=evenHead
+    if evenHead is not None:
+        evenTail.next =None
+    return oddHead
+    #Your code goes here
+
+
+Problem 8 :
+
+Delete every N nodes
+Send Feedback
+You have been given a singly linked list of integers along with two integers, 'M,' and 'N.' Traverse the linked list such that you retain the 'M' nodes, then delete the next 'N' nodes. Continue the same until the end of the linked list.
+To put it in other words, in the given linked list, you need to delete N nodes after every M nodes.
+Note :
+No need to print the list, it has already been taken care. Only return the new head to the list.
+Input format :
+The first line contains an Integer 't' which denotes the number of test cases or queries to be run. Then the test cases follow.
+
+The first line of each test case or query contains the elements of the singly linked list separated by a single space.
+
+The second line of input contains two integer values 'M,' and 'N,' respectively. A single space will separate them.
+ Remember/Consider :
+While specifying the list elements for input, -1 indicates the end of the singly linked list and hence, would never be a list element
+Output format :
+For each test case/query, print the elements of the updated singly linked list.
+
+Output for every test case will be printed in a seperate line.
+Constraints :
+1 <= t <= 10^2
+0 <= P <= 10^5
+Where P is the size of the singly linked list.
+0 <= M <= 10^5
+0 <= N <= 10^5 
+
+Time Limit: 1sec
+Sample Input 1 :
+1
+1 2 3 4 5 6 7 8 -1
+2 2
+Sample Output 1 :
+1 2 5 6
+Sample Input 2 :
+2
+10 20 30 40 50 60 -1
+0 1
+1 2 3 4 5 6 7 8 -1
+2 3
+Sample Output 2 :
+1 2 6 7
+Explanation of Sample Input 2 :
+For the first query, we delete one node after every zero elements hence removing all the items of the list. Therefore, nothing got printed.
+
+For the second query, we delete three nodes after every two nodes, resulting in the final list, 1 -> 2 -> 6 -> 7.
+
+
+
+Soln:
+
+from sys import stdin
+
+#Following is the Node class already written for the Linked List
+class Node :
+    def __init__(self, data) :
+        self.data = data
+        self.next = None
+
+
+
+def skipMdeleteN(head, M, N) :
+    curr = head 
+    if M==0:
+        return None
+    while(curr): 
+        for count in range(1, M): 
+            if curr is None: 
+                 return head 
+            curr = curr.next
+                      
+        if curr is None : 
+            return head
+        t = curr.next 
+        for count in range(1, N+1): 
+            if t is None: 
+                    break
+            t = t.next
+      
+        curr.next = t 
+        curr = t  
+    return head
+  
+
+
+
+Problem 9 :
+
+Swap two Nodes of LL
+Send Feedback
+You have been given a singly linked list of integers along with two integers, 'i,' and 'j.' Swap the nodes that are present at the 'i-th' and 'j-th' positions.
+Note :
+Remember, the nodes themselves must be swapped and not the datas.
+
+No need to print the list, it has already been taken care. Only return the new head to the list.
+Input format :
+The first line contains an Integer 't' which denotes the number of test cases or queries to be run. Then the test cases follow.
+
+The first line of each test case or query contains the elements of the singly linked list separated by a single space.
+
+The second line of input contains two integer values 'i,' and 'j,' respectively. A single space will separate them.
+ Remember/consider :
+While specifying the list elements for input, -1 indicates the end of the singly linked list and hence, would never be a list element
+Output format :
+For each test case/query, print the elements of the updated singly linked list.
+
+Output for every test case will be printed in a seperate line.
+Constraints :
+1 <= t <= 10^2
+0 <= M <= 10^5
+Where M is the size of the singly linked list.
+0 <= i < M
+0 <= j < M
+
+Time Limit: 1sec
+Sample Input 1 :
+1
+3 4 5 2 6 1 9 -1
+3 4
+Sample Output 1 :
+3 4 5 6 2 1 9 
+ Sample Input 2 :
+2
+10 20 30 40 -1
+1 2
+70 80 90 25 65 85 90 -1
+0 6
+ Sample Output 2 :
+10 30 20 40 
+90 80 90 25 65 85 70 
+
+
+
+Soln:
+
+from sys import stdin
+
+#Following is the Node class already written for the Linked List
+class Node :
+    def __init__(self, data) :
+        self.data = data
+        self.next = None
+
+
+
+def swapNodes(head, i, j) :
+   prevNode1 = None  
+   prevNode2 = None  
+   node1 = head  
+   node2 = head
+   if(head == None):  
+      return
+   if(node1 == node2):  
+      return  
+   while(node1 != None and node1 != i):  
+      prevNode1 = node1  
+      node1 = node1.next  
+   while(node2 != None and node2 != j):  
+      prevNode2 = node2  
+      node2 = node2.next
+
+   if(node1 != None and node2 != None):  
+      if(prevNode1 != None):  
+         prevNode1.next = node2  
+      else:  
+          head  = node2 
+      if(prevNode2 != None):  
+         prevNode2.next = node1  
+      else:  
+         head  = node1 
+      temp = node1.next   
+      node1.next = node2.next   
+      node2.next = temp 
+   return(head)
+
+
+
+
+Problem 10 :
+
+kReverse
+Send Feedback
+Given a singly linked list of integers, reverse the nodes of the linked list 'k' at a time and return its modified list.
+ 'k' is a positive integer and is less than or equal to the length of the linked list. If the number of nodes is not a multiple of 'k,' then left-out nodes, in the end, should be reversed as well.
+Example :
+Given this linked list: 1 -> 2 -> 3 -> 4 -> 5
+
+For k = 2, you should return: 2 -> 1 -> 4 -> 3 -> 5
+
+For k = 3, you should return: 3 -> 2 -> 1 -> 4 -> 5
+ Note :
+No need to print the list, it has already been taken care. Only return the new head to the list.
+ Input format :
+The first line contains an Integer 't' which denotes the number of test cases or queries to be run. Then the test cases follow.
+
+The first line of each test case or query contains the elements of the singly linked list separated by a single space.
+
+The second line of input contains a single integer depicting the value of 'k'.
+ Remember/Consider :
+While specifying the list elements for input, -1 indicates the end of the singly linked list and hence, would never be a list element
+Output format :
+For each test case/query, print the elements of the updated singly linked list.
+
+Output for every test case will be printed in a seperate line.
+Constraints :
+1 <= t <= 10^2
+0 <= M <= 10^5
+Where M is the size of the singly linked list.
+0 <= k <= M
+
+Time Limit:  1sec
+Sample Input 1 :
+1
+1 2 3 4 5 6 7 8 9 10 -1
+4
+Sample Output 1 :
+4 3 2 1 8 7 6 5 10 9
+Sample Input 2 :
+2
+1 2 3 4 5 -1
+0
+10 20 30 40 -1
+4
+Sample Output 2 :
+1 2 3 4 5 
+40 30 20 10
+
+Soln:
+
+from sys import stdin
+
+#Following is the Node class already written for the Linked List
+class Node :
+    def __init__(self, data) :
+        self.data = data
+        self.next = None
+
+
+
+def kReverse(head, k) :
+    current = head  
+    next  = None
+    prev = None
+    count = 0 
+    if k==0:
+        return head
+    while(current is not None and count < k): 
+         next = current.next
+         current.next = prev 
+         prev = current 
+         current = next 
+         count += 1
+    if next is not None: 
+         head.next = kReverse(next, k) 
+    return prev 
+
+
+
+
+Problem 11 :
+
+Bubble Sort (Iterative) LinkedList
+Send Feedback
+Given a singly linked list of integers, sort it using 'Bubble Sort.'
+Note :
+No need to print the list, it has already been taken care. Only return the new head to the list.
+Input format :
+The first line contains an Integer 't' which denotes the number of test cases or queries to be run. Then the test cases follow.
+
+The first and the only line of each test case or query contains the elements of the singly linked list separated by a single space.
+Remember/Consider :
+While specifying the list elements for input, -1 indicates the end of the singly linked list and hence, would never be a list element
+Output format :
+For each test case/query, print the elements of the sorted singly linked list.
+
+Output for every test case will be printed in a seperate line.
+Constraints :
+1 <= t <= 10^2
+0 <= M <= 10^5
+Where M is the size of the singly linked list.
+
+Time Limit: 1sec
+Sample Input 1 :
+1
+10 9 8 7 6 5 4 3 -1
+Sample Output 1 :
+ 3 4 5 6 7 8 9 10 
+ Sample Output 2 :
+2
+-1
+10 -5 9 90 5 67 1 89 -1
+Sample Output 2 :
+-5 1 5 9 10 67 89 90 
+
+
+
+Soln:
+
+from sys import stdin
+
+#Following is the Node class already written for the Linked List
+class Node :
+    def __init__(self, data) :
+        self.data = data
+        self.next = None
+
+
+
+def length(head):
+    temp=head
+    count = 0 
+    while temp is not None:
+        count += 1
+        temp = temp.next
+    return count     
+
+
+def bubbleSort(head) :
+    if head==None:
+        return head
+    
+    for i in range(length(head)):
+        ptr1=head
+        ptr2=None
+        while ptr1.next!=ptr2:
+            if ptr1.data>ptr1.next.data:
+                swap(ptr1,ptr1.next)
+            ptr1=ptr1.next
+        ptr2=ptr1
+    return head
+
+
+def swap(a,b):
+    temp=None
+    temp=a.data
+    a.data=b.data
+    b.data=temp
+
+def takeInput() :
+    head = None
+    tail = None
+
+    datas = list(map(int, stdin.readline().rstrip().split(" ")))
+
+    i = 0
+    while (i < len(datas)) and (datas[i] != -1) :
+        data = datas[i]
+        newNode = Node(data)
+
+        if head is None :
+            head = newNode
+            tail = newNode
+
+        else :
+            tail.next = newNode
+            tail = newNode
+
+        i += 1
+
+    return head
+
+
+
+def printLinkedList(head) :
+
+    while head is not None :
+        print(head.data, end = " ")
+        head = head.next
+
+    print()
+
+
+#main
+head = takeInput()
+head = bubbleSort(head)
+printLinkedList(head)
