@@ -1,0 +1,347 @@
+Problem 1:
+
+Geometric Sum
+Send Feedback
+Given k, find the geometric sum i.e.
+1 + 1/2 + 1/4 + 1/8 + ... + 1/(2^k) 
+using recursion.
+Input format :
+Integer k
+Output format :
+Geometric sum
+Constraints :
+0 <= k <= 1000
+Sample Input 1 :
+3
+Sample Output 1 :
+1.875
+Sample Input 2 :
+4
+Sample Output 2 :
+1.93750
+
+Soln:
+def Sum(n):
+    if n==0:
+        return 1
+    else:
+        return Sum(n-1) + 1/pow(2,n)
+
+n=int(input())
+print("%.5f"%Sum(n))
+
+Problem 2:
+Check Palindrome (recursive)
+Send Feedback
+Check whether a given String S is a palindrome using recursion. Return true or false.
+Input Format :
+String S
+Output Format :
+'true' or 'false'
+Constraints :
+0 <= |S| <= 1000
+where |S| represents length of string S.
+Sample Input 1 :
+racecar
+Sample Output 1:
+true
+Sample Input 2 :
+ninja
+Sample Output 2:
+false
+
+Soln:
+def Sum(n):
+    if n==0:
+        return 1
+    else:
+        return Sum(n-1) + 1/pow(2,n)
+
+n=int(input())
+print("%.5f"%Sum(n))
+
+Problem 3:
+
+Sum of digits (recursive)
+Send Feedback
+Write a recursive function that returns the sum of the digits of a given integer.
+Input format :
+Integer N
+Output format :
+Sum of digits of N
+Constraints :
+0 <= N <= 10^9
+Sample Input 1 :
+12345
+Sample Output 1 :
+15
+Sample Input 2 :
+9
+Sample Output 2 :
+9
+
+Soln:
+
+def sumofdigit(n): 
+    if n == 0: 
+        return 0
+    return (n % 10 + sumofdigit(int(n / 10)))
+
+
+n=int(input())
+print(sumofdigit(n))
+
+Problem 4:
+
+Multiplication (Recursive)
+Send Feedback
+Given two integers M & N, calculate and return their multiplication using recursion. You can only use subtraction and addition for your calculation. No other operators are allowed.
+Input format :
+Line 1 : Integer M
+Line 2 : Integer N
+Output format :
+M x N
+Constraints :
+0 <= M <= 1000
+0 <= N <= 1000
+Sample Input 1 :
+3 
+5
+Sample Output 1 :
+15
+Sample Input 2 :
+4 
+0
+Sample Output 2 :
+0
+
+Soln:
+
+Multiplication (Recursive)
+Send Feedback
+Given two integers M & N, calculate and return their multiplication using recursion. You can only use subtraction and addition for your calculation. No other operators are allowed.
+Input format :
+Line 1 : Integer M
+Line 2 : Integer N
+Output format :
+M x N
+Constraints :
+0 <= M <= 1000
+0 <= N <= 1000
+Sample Input 1 :
+3 
+5
+Sample Output 1 :
+15
+Sample Input 2 :
+4 
+0
+Sample Output 2 :
+0
+
+Problem 5:
+
+Count Zeros
+Send Feedback
+Given an integer N, count and return the number of zeros that are present in the given integer using recursion.
+Input Format :
+Integer N
+Output Format :
+Number of zeros in N
+Constraints :
+0 <= N <= 10^9
+Sample Input 1 :
+10204
+Sample Output 1 :
+2
+Sample Input 2 :
+708000
+Sample Output 2 :
+4
+
+Soln:
+
+def countzero(n): 
+   if(n == 0):
+       return 0
+   if(n %10 ==0):
+        return 1 + countzero(n / 10)
+   else:
+        return countzero(n//10)
+
+n = int(input())
+
+print(countzero(n))
+
+Problem 6:
+
+String to Integer
+Send Feedback
+Write a recursive function to convert a given string into the number it represents. That is input will be a numeric string that contains only numbers, you need to convert the string into corresponding integer and return the answer.
+Input format :
+Numeric string S (string, Eg. "1234")
+Output format :
+Corresponding integer N (int, Eg. 1234)
+Constraints :
+0 <= |S| <= 9
+where |S| represents length of string S.
+Sample Input 1 :
+1231
+Sample Output 1 :
+1231
+Sample Input 2 :
+12567
+Sample Output 2 :
+12567
+
+Soln:
+def stringToInt(str): 
+    if (len(str) == 1): 
+        return ord(str[0]) - ord('0') 
+    y = stringToInt(str[1:]);
+    x = ord(str[0]) - ord('0')
+    x = x * (10**(len(str) - 1)) + y; 
+    return int(x); 
+
+str=input()
+print(stringToInt(str))
+
+
+Problem 7:
+
+Pair star
+Send Feedback
+Given a string S, compute recursively a new string where identical chars that are adjacent in the original string are separated from each other by a "*".
+Input format :
+String S
+Output format :
+Modified string
+Constraints :
+0 <= |S| <= 1000
+where |S| represents length of string S.
+Sample Input 1 :
+hello
+Sample Output 1:
+hel*lo
+Sample Input 2 :
+aaaa
+Sample Output 2 :
+a*a*a*a
+
+Soln:
+
+def pairStar(Input, Output, i = 0) : 
+      
+    Output = Output + Input[i] 
+  
+    if (i == len(Input) - 1) : 
+        print(Output) 
+        return;  
+  
+    if (Input[i] == Input[i + 1]) :  
+        Output = Output + '*';  
+  
+    pairStar(Input, Output, i + 1)
+    
+    
+Input = input()
+Output =""
+pairStar(Input, Output)
+
+Problem 8:
+
+Check AB
+Send Feedback
+Suppose you have a string, S, made up of only 'a's and 'b's. Write a recursive function that checks if the string was generated using the following rules:
+a. The string begins with an 'a'
+b. Each 'a' is followed by nothing or an 'a' or "bb"
+c. Each "bb" is followed by nothing or an 'a'
+If all the rules are followed by the given string, return true otherwise return false.
+Input format :
+String S
+Output format :
+'true' or 'false'
+Constraints :
+0 <= |S| <= 1000
+where |S| represents length of string S.
+Sample Input 1 :
+abb
+Sample Output 1 :
+true
+Sample Input 2 :
+abababa
+Sample Output 2 :
+false
+
+Soln:
+
+def check(n,si):
+    l=len(n)
+    if si>=l:
+        return True
+    if si==0 and n[si]!='a':
+        return False
+    if n[si]=='a' and n[si+1]=='a':
+        if si+1!=l-1:
+            b=check(n,si+1)
+            return b
+        else:
+            return True
+    elif n[si]=='a' and (n[si+1]=='b' and n[si+2]=='b'):
+        if si+2!=l-1:
+            c=check(n,si+1)
+            return c
+        else:
+            return True
+    elif (n[si]=='b' and n[si+1]=='b') and n[si+2]=='a':
+        if si+2!=l-1:
+            d=check(n,si+2)
+            return d
+        else:
+            return True
+    else:
+        return False
+n=input()
+if (check(n,0)):
+    print("true")
+else:
+    print("false")
+
+
+
+Problem 9:
+
+Staircase
+Send Feedback
+A child is running up a staircase with N steps, and can hop either 1 step, 2 steps or 3 steps at a time. Implement a method to count how many possible ways the child can run up to the stairs. You need to return number of possible ways W.
+Input format :
+Integer N
+Output Format :
+Integer W
+Constraints :
+1 <= N <= 30
+Sample Input 1 :
+4
+Sample Output 1 :
+7
+Sample Input 2 :
+5
+Sample Output 2 :
+13
+
+Soln:
+
+def findStep( n) : 
+    if (n == 1 or n == 0) : 
+        return 1
+    elif (n == 2) : 
+        return 2
+    elif (n == 3) :
+        return 4
+    else : 
+        return findStep(n - 3) + findStep(n - 2) + findStep(n - 1)  
+  
+  
+# Driver code 
+n=int(input())
+print(findStep(n)) 
