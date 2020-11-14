@@ -1,0 +1,1333 @@
+Problem 1 :
+
+Mirror Binary Tree
+Send Feedback
+For a given Binary Tree of type integer, update it with its corresponding mirror image.
+Example:
+Alt text
+
+Input Format:
+The first and the only line of input will contain the node data, all separated by a single space. Since -1 is used as an indication whether the left or right node data exist for root, it will not be a part of the node data.
+Output Format:
+The only line of output prints the mirrored tree in a level-wise order. 
+Each level will be printed on a new line. Elements printed at each level will be separated by a single line.
+Note:
+You are not required to print anything explicitly. It has already been taken care of.
+Constraints:
+1 <= N <= 10^5
+Where N is the total number of nodes in the binary tree.
+
+Time Limit: 1 sec
+Sample Input 1:
+1 2 3 4 5 6 7 -1 -1 -1 -1 -1 -1 -1 -1
+Sample Output 1:
+1 
+3 2 
+7 6 5 4
+Sample Input 2:
+5 10 6 2 3 -1 -1 -1 -1 -1 9 -1 -1
+Sample Output 2:
+5 
+6 10 
+3 2 
+9
+
+Soln:
+
+from sys import stdin, setrecursionlimit
+import queue
+
+setrecursionlimit(10 ** 6)
+
+
+#Following is the structure used to represent the Binary Tree Node
+class BinaryTreeNode:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+
+
+
+def mirrorBinaryTree(root) :
+    if (root == None): 
+        return False
+    else: 
+        temp = root  
+        mirrorBinaryTree(root.left)  
+        mirrorBinaryTree(root.right)  
+        temp = root.left  
+        root.left = root.right  
+        root.right = temp  
+    return root
+
+#Taking level-order input using fast I/O method
+def takeInput():
+    levelOrder = list(map(int, stdin.readline().strip().split(" ")))
+    start = 0
+    
+    length = len(levelOrder)
+
+    if length == 1 :
+        return None
+    
+    root = BinaryTreeNode(levelOrder[start])
+    start += 1
+
+    q = queue.Queue()
+    q.put(root)
+
+    while not q.empty():
+        currentNode = q.get()
+
+        leftChild = levelOrder[start]
+        start += 1
+
+        if leftChild != -1:
+            leftNode = BinaryTreeNode(leftChild)
+            currentNode.left =leftNode
+            q.put(leftNode)
+
+        rightChild = levelOrder[start]
+        start += 1
+
+        if rightChild != -1:
+            rightNode = BinaryTreeNode(rightChild)
+            currentNode.right =rightNode
+            q.put(rightNode)
+
+    return root
+
+	
+def printLevelWise(root):
+    if root==None:
+        return
+
+    inputQ = queue.Queue()
+    outputQ = queue.Queue()
+    inputQ.put(root)
+
+    while not inputQ.empty():
+       
+        while not inputQ.empty():
+       
+            curr = inputQ.get()
+            print(curr.data, end=' ')
+            if curr.left!=None:
+                outputQ.put(curr.left)
+            if curr.right!=None:
+                outputQ.put(curr.right)
+       
+        print()
+        inputQ, outputQ = outputQ, inputQ
+
+
+# Main
+root = takeInput()
+
+mirrorBinaryTree(root)
+printLevelWise(root)
+
+
+Problem 2 :
+
+
+
+Diameter Of Binary Tree
+Send Feedback
+For a given Binary of type integer, find and return the ‘Diameter’.
+Diameter of a Tree
+The diameter of a tree can be defined as the maximum distance between two leaf nodes.
+Here, the distance is measured in terms of the total number of nodes present along the path of the two leaf nodes, including both the leaves.
+Example:
+alt txt
+
+The maximum distance can be seen between the leaf nodes 8 and 9. 
+The distance is 9 as there are a total of nine nodes along the longest path from 8 to 9(inclusive of both). Hence the diameter according to the definition will be 9.
+Input Format:
+The first and the only line of input will contain the node data, all separated by a single space. Since -1 is used as an indication whether the left or right node data exist for root, it will not be a part of the node data.
+Output Format:
+The only line of output prints an integer, representing the diameter of the tree.
+Note:
+You are not required to print anything explicitly. It has already been taken care of.
+Constraints:
+1 <= N <= 10^5
+Where N is the total number of nodes in the binary tree.
+
+Time Limit: 1 sec
+Sample Input 1:
+2 4 5 6 -1 -1 7 20 30 80 90 -1 -1 8 -1 -1 9 -1 -1 -1 -1 -1 -1 
+Sample Output 1:
+9
+Sample Input 2:
+1 2 3 4 5 6 7 -1 -1 -1 -1 -1 -1 -1 -1
+Sample Output 2:
+5
+
+Soln:
+
+'''
+
+    Time complexity: O(N)
+    Space complexity: O(H)
+
+    where N is the number of nodes in the input tree
+    and H is the height of the input tree
+
+'''
+
+from sys import stdin, setrecursionlimit
+import queue
+
+setrecursionlimit(10 ** 6)
+
+
+#Following is the structure used to represent the Binary Tree Node
+class BinaryTreeNode:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+
+
+class Pair :
+
+	def __init__(self, diameter, height) :
+		self.diameter = diameter
+		self.height = height
+
+
+
+def diameterHelper(root) :
+	if root is None :
+		pair = Pair(0, 0)
+		return pair
+
+	leftPair = diameterHelper(root.left)
+	rightPair = diameterHelper(root.right)
+
+	leftDiameter = leftPair.diameter
+	rightDiameter = rightPair.diameter
+
+	diameterFromRoot = leftPair.height + rightPair.height + 1
+
+	diameter = max(leftDiameter, rightDiameter, diameterFromRoot)
+	height = max(leftPair.height,rightPair.height) + 1
+
+	return Pair(diameter, height)
+
+
+def diameterOfBinaryTree(root) :
+	pair = diameterHelper(root)
+	return pair.diameter
+
+
+
+
+#Taking level-order input using fast I/O method
+def takeInput():
+    levelOrder = list(map(int, stdin.readline().strip().split(" ")))
+    start = 0
+    
+    length = len(levelOrder)
+
+    if length == 1 :
+        return None
+    
+    root = BinaryTreeNode(levelOrder[start])
+    start += 1
+
+    q = queue.Queue()
+    q.put(root)
+
+    while not q.empty():
+        currentNode = q.get()
+
+        leftChild = levelOrder[start]
+        start += 1
+
+        if leftChild != -1:
+            leftNode = BinaryTreeNode(leftChild)
+            currentNode.left =leftNode
+            q.put(leftNode)
+
+        rightChild = levelOrder[start]
+        start += 1
+
+        if rightChild != -1:
+            rightNode = BinaryTreeNode(rightChild)
+            currentNode.right =rightNode
+            q.put(rightNode)
+
+    return root
+
+	
+def printLevelWise(root):
+    if root==None:
+        return
+
+    inputQ = queue.Queue()
+    outputQ = queue.Queue()
+    inputQ.put(root)
+
+    while not inputQ.empty():
+       
+        while not inputQ.empty():
+       
+            curr = inputQ.get()
+            print(curr.data, end=' ')
+            if curr.left!=None:
+                outputQ.put(curr.left)
+            if curr.right!=None:
+                outputQ.put(curr.right)
+       
+        print()
+        inputQ, outputQ = outputQ, inputQ
+
+
+# Main
+root = takeInput()
+
+print(diameterOfBinaryTree(root))
+
+Problem 3 :
+
+Print Levelwise
+Send Feedback
+For a given a Binary Tree of type integer, print the complete information of every node, when traversed in a level-order fashion.
+To print the information of a node with data D, you need to follow the exact format :
+
+           D:L:X,R:Y
+
+Where D is the data of a node present in the binary tree. 
+X and Y are the values of the left(L) and right(R) child of the node.
+Print -1 if the child doesn't exist.
+Example:
+alt text
+
+For the above depicted Binary Tree, the level order travel will be printed as followed:
+
+1:L:2,R:3
+2:L:4:,R:-1
+3:L:5:,R:6
+4:L:-1:,R:7
+5:L:-1:,R:-1    
+6:L:-1:,R:-1
+7:L:-1:,R:-1
+
+Note: There is no space in between while printing the information for each node.
+Input Format:
+The first and the only line of input will contain the node data, all separated by a single space. Since -1 is used as an indication whether the left or right node data exist for root, it will not be a part of the node data.
+Output Format:
+Information of all the nodes in the Binary Tree will be printed on a different line where each node will follow a format of D:L:X,R:Y, without any spaces in between.
+Constraints:
+1 <= N <= 10^5
+Where N is the total number of nodes in the binary tree.
+
+Time Limit: 1 sec
+Sample Input 1:
+8 3 10 1 6 -1 14 -1 -1 4 7 13 -1 -1 -1 -1 -1 -1 -1
+ Sample Output 1:
+8:L:3,R:10
+3:L:1,R:6
+10:L:-1,R:14
+1:L:-1,R:-1
+6:L:4,R:7
+14:L:13,R:-1
+4:L:-1,R:-1
+7:L:-1,R:-1
+13:L:-1,R:-1
+Sample Input 2:
+1 2 3 4 5 6 7 -1 -1 -1 -1 -1 -1 -1 -1
+ Sample Output 2:
+1:L:2,R:3
+2:L:4,R:5
+3:L:6,R:7
+4:L:-1,R:-1
+5:L:-1,R:-1
+6:L:-1,R:-1
+7:L:-1,R:-1
+
+Soln:
+
+import queue
+class BinaryTreeNode:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+def printLevelWise(root):
+    q = queue.Queue()    
+
+    if root == None:
+        return None
+    
+    q.put(root)
+    
+    while (not(q.empty())):
+        a = q.get()
+        print(a.data, end = ":")
+        
+        leftChild = a.left
+        if leftChild != None:
+            print("L:", end = "")
+            print(leftChild.data, end = ",")
+            q.put(leftChild)
+        else:
+            print("L:", end = "")
+            print(-1, end = ",")
+            
+        rightChild = a.right
+        if rightChild != None:
+            print("R:", end = "")
+            print(rightChild.data)
+            q.put(rightChild)
+        else:
+            print("R:", end = "")
+            print(-1)
+            
+            
+            
+            
+            
+            
+            
+            
+def buildLevelTree(levelorder):
+    index = 0
+    length = len(levelorder)
+    if length<=0 or levelorder[0]==-1:
+        return None
+    root = BinaryTreeNode(levelorder[index])
+    index += 1
+    q = queue.Queue()
+    q.put(root)
+    while not q.empty():
+        currentNode = q.get()
+        leftChild = levelorder[index]
+        index += 1
+        if leftChild != -1:
+            leftNode = BinaryTreeNode(leftChild)
+            currentNode.left =leftNode
+            q.put(leftNode)
+        rightChild = levelorder[index]
+        index += 1
+        if rightChild != -1:
+            rightNode = BinaryTreeNode(rightChild)
+            currentNode.right =rightNode
+            q.put(rightNode)
+    return root
+
+# Main 
+levelOrder = [int(i) for i in input().strip().split()]
+root = buildLevelTree(levelOrder)
+printLevelWise(root)
+
+
+Problem 4 :
+
+Construct Tree Using Inorder and Preorder
+Send Feedback
+For a given preorder and inorder traversal of a Binary Tree of type integer stored in an array/list, create the binary tree using the given two arrays/lists. You just need to construct the tree and return the root.
+Note:
+Assume that the Binary Tree contains only unique elements. 
+Input Format:
+The first line of input contains an integer N denoting the size of the list/array. It can also be said that N is the total number of nodes the binary tree would have.
+
+The second line of input contains N integers, all separated by a single space. It represents the preorder-traversal of the binary tree.
+
+The third line of input contains N integers, all separated by a single space. It represents the inorder-traversal of the binary tree.
+Output Format:
+The given input tree will be printed in a level order fashion where each level will be printed on a new line. 
+Elements on every level will be printed in a linear fashion. A single space will separate them.
+Constraints:
+1 <= N <= 10^4
+Where N is the total number of nodes in the binary tree.
+
+Time Limit: 1 sec
+Sample Input 1:
+7
+1 2 4 5 3 6 7 
+4 2 5 1 6 3 7 
+Sample Output 1:
+1 
+2 3 
+4 5 6 7 
+Sample Input 2:
+6
+5 6 2 3 9 10 
+2 6 3 9 5 10 
+Sample Output 2:
+5 
+6 10 
+2 3 
+9 
+
+
+
+Soln:
+
+from sys import stdin, setrecursionlimit
+import queue
+
+setrecursionlimit(10 ** 6)
+
+
+#Following is the structure used to represent the Binary Tree Node
+class TreeNode:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+
+
+def buildTree(preorder, inorder, n) :
+    if len(preorder)==0  and len(inorder) ==0:
+        return None
+    
+    root = TreeNode(preorder[0])
+    len1 = n
+    i = 0
+    while  i < len1:
+        if inorder[i] == root.data:
+            break
+        i+=1
+    leftin = inorder[:i]
+    rightin = inorder[i+1:]
+    leftpre = preorder[1:i+1]
+    rightpre = preorder[i+1:]
+    root.left = buildTree(leftpre,leftin,n)
+    root.right = buildTree(rightpre,rightin,n)
+    
+    return root
+    '''if 0 == len(preOrder):
+         return None
+     ii=0
+     pi=1
+     root = TreeNode(preOrder[0])
+     node = root
+     nodemap = {preOrder[0]: root}
+     while pi < len(preOrder):
+         do_right = False
+         while ii < len(inOrder) and inOrder[ii] in nodemap:
+             do_right = True
+             node = nodemap[inOrder[ii]]
+             ii += 1
+         if do_right:
+             node.right = TreeNode(preOrder[pi])
+             node = node.right
+         else:
+             node.left = TreeNode(preOrder[pi])
+             node = node.left
+             nodemap[preOrder[pi]] = node
+             pi += 1
+         
+     return root'''
+        
+
+'''-------------------------- Utility Functions --------------------------'''
+
+def printLevelWise(root):
+    if root is None :
+        return
+
+    pendingNodes = queue.Queue()
+    pendingNodes.put(root)
+    pendingNodes.put(None)
+
+    while not pendingNodes.empty(): 
+        frontNode = pendingNodes.get()
+    
+        if frontNode is None :
+            print()
+            
+            if not pendingNodes.empty() :
+                pendingNodes.put(None)
+                
+        else :
+            print(frontNode.data, end = " ")
+            
+            if frontNode.left is not None :
+                pendingNodes.put(frontNode.left)
+                
+                
+            if frontNode.right is not None :
+                pendingNodes.put(frontNode.right)
+
+
+                
+
+#Taking level-order input using fast I/O method
+def takeInput():
+    n = int(stdin.readline().strip())
+
+    if n == 0 :
+        return list(), list(), 0
+
+    preOrder = list(map(int, stdin.readline().strip().split(" ")))
+    inOrder = list(map(int, stdin.readline().strip().split(" ")))
+
+    return preOrder, inOrder, n
+
+
+# Main
+preOrder, inOrder, n = takeInput()
+root = buildTree(preOrder, inOrder, n)
+printLevelWise(root)
+
+Problem 5 :
+
+Construct Tree Using Inorder and PostOrder
+Send Feedback
+For a given postorder and inorder traversal of a Binary Tree of type integer stored in an array/list, create the binary tree using the given two arrays/lists. You just need to construct the tree and return the root.
+Note:
+Assume that the Binary Tree contains only unique elements. 
+Input Format:
+The first line of input contains an integer N denoting the size of the list/array. It can also be said that N is the total number of nodes the binary tree would have.
+
+The second line of input contains N integers, all separated by a single space. It represents the Postorder-traversal of the binary tree.
+
+The third line of input contains N integers, all separated by a single space. It represents the inorder-traversal of the binary tree.
+Output Format:
+The given input tree will be printed in a level order fashion where each level will be printed on a new line. 
+Elements on every level will be printed in a linear fashion. A single space will separate them.
+Constraints:
+1 <= N <= 10^4
+Where N is the total number of nodes in the binary tree.
+
+Time Limit: 1 sec
+Sample Input 1:
+7
+4 5 2 6 7 3 1 
+4 2 5 1 6 3 7 
+Sample Output 1:
+1 
+2 3 
+4 5 6 7 
+Sample Input 2:
+6
+2 9 3 6 10 5 
+2 6 3 9 5 10 
+Sample Output 2:
+5 
+6 10 
+2 3 
+9
+
+Soln:
+
+import queue
+class BinaryTreeNode:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+def buildTreePostOrder(postorder, inorder):
+    postLength = len(postorder)
+    inLength = len(inorder)
+    if postLength!=inLength or postorder==None or inorder==None or postLength==0:
+        return None
+    root = BinaryTreeNode(postorder[-1])
+    rootIndex = inorder.index(root.data)
+    
+    root.left = buildTreePostOrder(postorder[:rootIndex],inorder[:rootIndex])
+    root.right = buildTreePostOrder(postorder[rootIndex:-1],inorder[rootIndex+1:])
+    return root
+
+def printLevelATNewLine(root):
+    # Given a binary tree, print the level order traversal. Make sure each level
+    # start in new line.
+    if root==None:
+        return
+    inputQ = queue.Queue()
+    outputQ = queue.Queue()
+    inputQ.put(root)
+    while not inputQ.empty():
+        while not inputQ.empty():
+            curr = inputQ.get()
+            print(curr.data, end=' ')
+            if curr.left!=None:
+                outputQ.put(curr.left)
+            if curr.right!=None:
+                outputQ.put(curr.right)
+        print()
+        inputQ, outputQ = outputQ, inputQ
+
+# Main
+n=int(input())
+postOrder = [int(i) for i in input().strip().split()]
+inorder = [int(i) for i in input().strip().split()]
+root = buildTreePostOrder(postOrder, inorder)
+printLevelATNewLine(root)
+
+Problem 6:
+
+Create & Insert Duplicate Node
+Send Feedback
+For a given a Binary Tree of type integer, duplicate every node of the tree and attach it to the left of itself.
+The root will remain the same. So you just need to insert nodes in the given Binary Tree.
+Example:
+alt txt
+
+After making the changes to the above-depicted tree, the updated tree will look like this.
+alt txt
+
+You can see that every node in the input tree has been duplicated and inserted to the left of itself.
+Input format :
+The first and the only line of input will contain the node data, all separated by a single space. Since -1 is used as an indication whether the left or right node data exist for root, it will not be a part of the node data.
+Output Format :
+The updated tree will be printed in a level order fashion where each level will be printed on a new line. 
+Elements on every level will be printed in a linear fashion. A single space will separate them.
+ Note:
+You are not required to print anything explicitly. It has already been taken care of. Just implement the function to achieve the desired structure of the tree.
+Constraints :
+1 <= N <= 10^5
+Where N is the total number of nodes in the binary tree.
+
+Time Limit: 1 sec
+Sample Input 1:
+10 20 30 40 50 -1 60 -1 -1 -1 -1 -1 -1
+Sample Output 1:
+10 
+10 30 
+20 30 60 
+20 50 60 
+40 50 
+40 
+Sample Input 2:
+8 5 10 2 6 -1 -1 -1 -1 -1 7 -1 -1
+Sample Output 2:
+8 
+8 10 
+5 10 
+5 6 
+2 6 7 
+2 7
+
+Soln:
+
+from sys import stdin, setrecursionlimit
+import queue
+
+setrecursionlimit(10 ** 6)
+
+
+#Following is the structure used to represent the Binary Tree Node
+class BinaryTreeNode:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+
+def insertDuplicateNode(root):
+    if root == None: 
+        return
+    insertDuplicateNode(root.left); 
+    insertDuplicateNode(root.right); 
+    oldleft = root.left 
+    root.left = BinaryTreeNode(root.data); 
+    root.left.left = oldleft
+    return root  
+    
+
+#Taking level-order input using fast I/O method
+def takeInput():
+    levelOrder = list(map(int, stdin.readline().strip().split(" ")))
+    start = 0
+    
+    length = len(levelOrder)
+
+    if length == 1 :
+        return None
+    
+    root = BinaryTreeNode(levelOrder[start])
+    start += 1
+
+    q = queue.Queue()
+    q.put(root)
+
+    while not q.empty():
+        currentNode = q.get()
+
+        leftChild = levelOrder[start]
+        start += 1
+
+        if leftChild != -1:
+            leftNode = BinaryTreeNode(leftChild)
+            currentNode.left =leftNode
+            q.put(leftNode)
+
+        rightChild = levelOrder[start]
+        start += 1
+
+        if rightChild != -1:
+            rightNode = BinaryTreeNode(rightChild)
+            currentNode.right =rightNode
+            q.put(rightNode)
+
+    return root
+
+    
+def printLevelWise(root):
+    if root is None:
+        return
+
+    inputQ = queue.Queue()
+    outputQ = queue.Queue()
+    inputQ.put(root)
+
+    while not inputQ.empty():
+       
+        while not inputQ.empty():
+       
+            curr = inputQ.get()
+            print(curr.data, end=' ')
+            if curr.left!=None:
+                outputQ.put(curr.left)
+            if curr.right!=None:
+                outputQ.put(curr.right)
+       
+        print()
+        inputQ, outputQ = outputQ, inputQ
+
+
+# Main
+root = takeInput()
+
+insertDuplicateNode(root)
+printLevelWise(root)
+
+Problem 7 :
+
+Minimum and Maximum in the Binary Tree
+Send Feedback
+For a given a Binary Tree of type integer, find and return the minimum and the maximum data values.
+Return the output as an object of Pair class, which is already created.
+Note:
+All the node data will be unique and hence there will always exist a minimum and maximum node data.
+Input Format:
+The first and the only line of input will contain the node data, all separated by a single space. Since -1 is used as an indication whether the left or right node data exist for root, it will not be a part of the node data.
+Output Format:
+The only line of output prints two integers denoting the minimum and the maximum data values respectively. A single line will separate them both.
+Constraints:
+2 <= N <= 10^5
+Where N is the total number of nodes in the binary tree.
+
+Time Limit: 1 sec
+Sample Input 1:
+8 3 10 1 6 -1 14 -1 -1 4 7 13 -1 -1 -1 -1 -1 -1 -1
+Sample Output 1:
+1 14
+Sample Input 2:
+10 20 60 -1 -1 3 50 -1 -1 -1 -1 
+Sample Output 2:
+3 60
+
+Soln:
+
+from sys import stdin, setrecursionlimit
+import queue
+
+setrecursionlimit(10 ** 6)
+INT_MIN = -2147483648
+INT_MAX = 2147483647
+
+#Following is the structure used to represent the Binary Tree Node
+class BinaryTreeNode:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+
+
+#Representation of the Pair Class
+class Pair :
+
+    def __init__(self, minimum, maximum) :
+        self.minimum = minimum
+        self.maximum = maximum
+
+
+
+def minMax(root,mi=INT_MAX,ma=INT_MIN):
+    if root==None:
+        return ma,mi
+    ma1,mi1=minMax(root.left,mi,ma)
+    ma2,mi2=minMax(root.right,mi,ma)
+    minr=min(mi1,mi2,root.data)
+    maxr=max(ma1,ma2,root.data)
+    return maxr,minr
+
+def getMinAndMax(root):
+	a,b = minMax(root,INT_MAX,INT_MIN)
+	return Pair(b,a)
+
+
+#Taking level-order input using fast I/O method
+def takeInput():
+    levelOrder = list(map(int, stdin.readline().strip().split(" ")))
+    start = 0
+    
+    length = len(levelOrder)
+
+    if length == 1 :
+        return None
+    
+    root = BinaryTreeNode(levelOrder[start])
+    start += 1
+
+    q = queue.Queue()
+    q.put(root)
+
+    while not q.empty():
+        currentNode = q.get()
+
+        leftChild = levelOrder[start]
+        start += 1
+
+        if leftChild != -1:
+            leftNode = BinaryTreeNode(leftChild)
+            currentNode.left =leftNode
+            q.put(leftNode)
+
+        rightChild = levelOrder[start]
+        start += 1
+
+        if rightChild != -1:
+            rightNode = BinaryTreeNode(rightChild)
+            currentNode.right =rightNode
+            q.put(rightNode)
+
+    return root
+
+    
+def printLevelWise(root):
+    if root is None:
+        return
+
+    inputQ = queue.Queue()
+    outputQ = queue.Queue()
+    inputQ.put(root)
+
+    while not inputQ.empty():
+       
+        while not inputQ.empty():
+       
+            curr = inputQ.get()
+            print(curr.data, end=' ')
+            if curr.left!=None:
+                outputQ.put(curr.left)
+            if curr.right!=None:
+                outputQ.put(curr.right)
+       
+        print()
+        inputQ, outputQ = outputQ, inputQ
+
+
+# Main
+root = takeInput()
+
+pair = getMinAndMax(root)
+print(str(str(pair.minimum) + " " + str(pair.maximum)))
+
+Problem 8:
+
+Level order traversal
+Send Feedback
+For a given a Binary Tree of type integer, print it in a level order fashion where each level will be printed on a new line. Elements on every level will be printed in a linear fashion and a single space will separate them.
+Example:
+alt txt
+
+For the above-depicted tree, when printed in a level order fashion, the output would look like:
+
+10
+20 30 
+40 50 60
+Where each new line denotes the level in the tree.
+Input Format:
+The first and the only line of input will contain the node data, all separated by a single space. Since -1 is used as an indication whether the left or right node data exist for root, it will not be a part of the node data.
+Output Format:
+The given input tree will be printed in a level order fashion where each level will be printed on a new line. 
+Elements on every level will be printed in a linear fashion. A single space will separate them.
+Constraints:
+1 <= N <= 10^5
+Where N is the total number of nodes in the binary tree.
+
+Time Limit: 1 sec
+Sample Input 1:
+10 20 30 40 50 -1 60 -1 -1 -1 -1 -1 -1 
+Sample Output 1:
+10 
+20 30 
+40 50 60 
+Sample Input 2:
+8 3 10 1 6 -1 14 -1 -1 4 7 13 -1 -1 -1 -1 -1 -1 -1
+Sample Output 2:
+8 
+3 10 
+1 6 14 
+4 7 13
+
+Soln:
+
+import queue
+class BinaryTreeNode:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+def printLevelATNewLine(root):
+    
+    if root==None:
+        return
+    q1=queue.Queue()
+    q2 = queue.Queue()
+    q1.put(root)
+    while not q1.empty():
+        while not q1.empty():
+            curr=q1.get()
+            print(curr.data,end=' ')
+        #print()
+            if curr.left!=None:
+        
+            #print(curr.left.data,end=" ")
+                q2.put(curr.left)
+            if curr.right!=None:
+            
+            #print(curr.right.data,end="")
+                q2.put(curr.right)
+        q1,q2 = q2,q1
+        print()            
+
+def buildLevelTree(levelorder):
+    index = 0
+    length = len(levelorder)
+    if length<=0 or levelorder[0]==-1:
+        return None
+    root = BinaryTreeNode(levelorder[index])
+    index += 1
+    q = queue.Queue()
+    q.put(root)
+    while not q.empty():
+        currentNode = q.get()
+        leftChild = levelorder[index]
+        index += 1
+        if leftChild != -1:
+            leftNode = BinaryTreeNode(leftChild)
+            currentNode.left =leftNode
+            q.put(leftNode)
+        rightChild = levelorder[index]
+        index += 1
+        if rightChild != -1:
+            rightNode = BinaryTreeNode(rightChild)
+            currentNode.right =rightNode
+            q.put(rightNode)
+    return root
+
+# Main
+#n=int(input())
+levelOrder = [int(i) for i in input().strip().split()]
+root = buildLevelTree(levelOrder)
+printLevelATNewLine(root)
+
+
+Problem 9 :
+
+Path Sum Root to Leaf
+Send Feedback
+For a given Binary Tree of type integer and a number K, print out all root-to-leaf paths where the sum of all the node data along the path is equal to K.
+Example:
+alt txt
+
+If you see in the above-depicted picture of Binary Tree, we see that there are a total of two paths, starting from the root and ending at the leaves which sum up to a value of K = 13.
+
+The paths are:
+a. 2 3 4 4
+b. 2 3 8
+
+One thing to note here is, there is another path in the right sub-tree in reference to the root, which sums up to 13 but since it doesn't end at the leaf, we discard it.
+The path is: 2 9 2(not a leaf)
+ Input Format:
+The first line of input will contain the node data, all separated by a single space. Since -1 is used as an indication whether the left or right node data exist for root, it will not be a part of the node data.
+
+The second line of input contains an integer value K.
+Output Format:
+Lines equal to the total number of paths will be printed. All the node data in every path will be printed in a linear fashion taken in the order they appear from top to down bottom in the tree. A single space will separate them all.
+Constriants:
+1 <= N <= 10^5
+0 <= K <= 10^8
+Where N is the total number of nodes in the binary tree.
+
+Time Limit: 1 second
+Sample Input 1:
+2 3 9 4 8 -1 2 4 -1 -1 -1 6 -1 -1 -1 -1 -1
+13
+ Sample Output 1:
+2 3 4 4 
+2 3 8
+Sample Input 2:
+5 6 7 2 3 -1 1 -1 -1 -1 9 -1 -1 -1 -1
+13
+ Sample Output 2:
+5 6 2
+5 7 1
+
+Soln:
+
+from sys import stdin, setrecursionlimit
+import queue
+
+setrecursionlimit(10 ** 6)
+
+
+#Following is the structure used to represent the Binary Tree Node
+class BinaryTreeNode:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+
+
+def rootToLeafPathsSumToK(root, k, lst):
+    if root==None:
+        return None
+    if root.left==None and root.right==None and root.data==k:
+        print(*lst,root.data)
+        return   
+    lst.append(root.data)
+    rootToLeafPathsSumToK(root.left,k-root.data,lst)
+    rootToLeafPathsSumToK(root.right,k-root.data,lst)
+    lst.pop()
+    return
+
+
+#Taking level-order input using fast I/O method
+def takeInput():
+    levelOrder = list(map(int, stdin.readline().strip().split(" ")))
+    start = 0
+    
+    length = len(levelOrder)
+
+    if length == 1 :
+        return None
+    
+    root = BinaryTreeNode(levelOrder[start])
+    start += 1
+
+    q = queue.Queue()
+    q.put(root)
+
+    while not q.empty():
+        currentNode = q.get()
+
+        leftChild = levelOrder[start]
+        start += 1
+
+        if leftChild != -1:
+            leftNode = BinaryTreeNode(leftChild)
+            currentNode.left =leftNode
+            q.put(leftNode)
+
+        rightChild = levelOrder[start]
+        start += 1
+
+        if rightChild != -1:
+            rightNode = BinaryTreeNode(rightChild)
+            currentNode.right =rightNode
+            q.put(rightNode)
+
+    return root
+
+    
+def printLevelWise(root):
+    if root is None:
+        return
+
+    inputQ = queue.Queue()
+    outputQ = queue.Queue()
+    inputQ.put(root)
+
+    while not inputQ.empty():
+       
+        while not inputQ.empty():
+       
+            curr = inputQ.get()
+            print(curr.data, end=' ')
+            if curr.left!=None:
+                outputQ.put(curr.left)
+            if curr.right!=None:
+                outputQ.put(curr.right)
+       
+        print()
+        inputQ, outputQ = outputQ, inputQ
+
+
+# Main
+root = takeInput()
+k = int(stdin.readline().strip())
+rootToLeafPathsSumToK(root, k, [])
+
+Problem 10 :
+
+Print nodes at distance k from node
+Send Feedback
+You are given a Binary Tree of type integer, a target node, and an integer value K.
+Print the data of all nodes that have a distance K from the target node. The order in which they would be printed will not matter.
+Example:
+For a given input tree(refer to the image below):
+1. Target Node: 5
+2. K = 2
+alt txt
+
+Starting from the target node 5, the nodes at distance K are 7 4 and 1.
+Input Format:
+The first line of input will contain the node data, all separated by a single space. Since -1 is used as an indication whether the left or right node data exist for root, it will not be a part of the node data.
+
+The second line of input contains two integers separated by a single space, representing the value of the target node and K, respectively.
+Output Format:
+All the node data at distance K from the target node will be printed on a new line.
+
+The order in which the data is printed doesn't matter.
+Constraints:
+1 <= N <= 10^5
+Where N is the total number of nodes in the binary tree.
+
+Time Limit: 1 sec
+Sample Input 1:
+5 6 10 2 3 -1 -1 -1 -1 -1 9 -1 -1
+3 1
+Sample Output 1:
+9
+6
+Sample Input 2:
+1 2 3 4 5 6 7 -1 -1 -1 -1 -1 -1 -1 -1
+3 3
+Sample Output 2:
+4
+5
+
+Soln:
+
+from sys import stdin, setrecursionlimit
+import queue
+
+setrecursionlimit(10 ** 6)
+
+
+#Following is the structure used to represent the Binary Tree Node
+class BinaryTreeNode:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+        
+
+        
+def printkDistanceNodeDown(root, k): 
+    if root is None or k< 0 : 
+        return 
+    if k == 0 : 
+        print(root.data)
+        return 
+    printkDistanceNodeDown(root.left, k-1) 
+    printkDistanceNodeDown(root.right, k-1) 
+
+def nodesAtDistanceK(root, node, k) :
+    if root is None: 
+        return -1
+    if root.data == node: 
+        printkDistanceNodeDown(root, k) 
+        return 0 
+    dl = nodesAtDistanceK(root.left, target, k) 
+    if dl != -1: 
+        if dl +1 == k : 
+            print(root.data) 
+        else: 
+            printkDistanceNodeDown(root.right, k-dl-2) 
+        return 1 + dl 
+    dr = nodesAtDistanceK(root.right, target, k) 
+    if dr != -1: 
+        if (dr+1 == k): 
+            print(root.data) 
+        else: 
+            printkDistanceNodeDown(root.left, k-dr-2) 
+        return 1 + dr 
+    return -1
+#Taking level-order input using fast I/O method
+def takeInput():
+    levelOrder = list(map(int, stdin.readline().strip().split(" ")))
+    start = 0
+    
+    length = len(levelOrder)
+
+    if length == 1 :
+        return None
+    
+    root = BinaryTreeNode(levelOrder[start])
+    start += 1
+
+    q = queue.Queue()
+    q.put(root)
+
+    while not q.empty():
+        currentNode = q.get()
+
+        leftChild = levelOrder[start]
+        start += 1
+
+        if leftChild != -1:
+            leftNode = BinaryTreeNode(leftChild)
+            currentNode.left =leftNode
+            q.put(leftNode)
+
+        rightChild = levelOrder[start]
+        start += 1
+
+        if rightChild != -1:
+            rightNode = BinaryTreeNode(rightChild)
+            currentNode.right =rightNode
+            q.put(rightNode)
+
+    return root
+
+    
+def printLevelWise(root):
+    if root is None:
+        return
+
+    inputQ = queue.Queue()
+    outputQ = queue.Queue()
+    inputQ.put(root)
+
+    while not inputQ.empty():
+       
+        while not inputQ.empty():
+       
+            curr = inputQ.get()
+            print(curr.data, end=' ')
+            if curr.left!=None:
+                outputQ.put(curr.left)
+            if curr.right!=None:
+                outputQ.put(curr.right)
+       
+        print()
+        inputQ, outputQ = outputQ, inputQ
+
+
+# Main
+root = takeInput()
+target_k = stdin.readline().strip().split(" ")
+
+target = int(target_k[0])
+k = int(target_k[1])
+
+nodesAtDistanceK(root, target, k)
