@@ -1,0 +1,684 @@
+Problem  1 :
+
+Sum of all nodes
+Send Feedback
+Given a generic tree, find and return the sum of all nodes present in the given tree.
+Input format :
+The first line of input contains data of the nodes of the tree in level order form. The order is: data for root node, number of children to root node, data of each of child nodes and so on and so forth for each node. The data of the nodes of the tree is separated by space.   
+Output Format :
+The first and only line of output prints the sum of all nodes of the given generic tree.
+Constraints:
+Time Limit: 1 sec
+Sample Input 1:
+10 3 20 30 40 2 40 50 0 0 0 0 
+Sample Output 1:
+190
+
+Soln:
+
+class treeNode:
+    def __init__(self, data):
+        self.data = data
+        self.children = []
+    def __str__(self):
+        return str(self.data)
+
+def sumofNodes(tree):
+    
+    if tree is None:
+        return 0
+    sum = tree.data
+    
+    for child in tree.children:
+        sum += sumofNodes(child)
+        # if child_value > 0:
+        #     sum += child_value
+    
+    return sum
+
+def createLevelWiseTree(arr):
+    root = treeNode(int(arr[0]))
+    q = [root]
+    size = len(arr)
+    i = 1
+    while i<size:
+        parent = q.pop(0)
+        childCount = int(arr[i])
+        i += 1
+        for j in range(0,childCount):
+            temp = treeNode(int(arr[i+j]))
+            parent.children.append(temp)
+            q.append(temp)
+        i += childCount
+    return root
+
+# Main
+arr = list(int(x) for x in input().strip().split(' '))
+tree = createLevelWiseTree(arr)
+print(sumofNodes(tree))
+
+Problem  2 :
+
+Node With Largest Data
+Send Feedback
+Given a generic tree, find and return the node with maximum data. You need to return the node which is having maximum data.
+Return null if tree is empty.
+Input format :
+The first line of input contains data of the nodes of the tree in level order form. The order is: data for root node, number of children to root node, data of each of child nodes and so on and so forth for each node. The data of the nodes of the tree is separated by space.
+Output Format :
+The first and only line of output contains the data of the node with largest data in the given tree.
+Constraints:
+Time Limit: 1 sec
+Sample Input 1:
+10 3 20 30 40 2 40 50 0 0 0 0 
+Sample Output 1:
+50
+
+Soln:
+
+class treeNode:
+    def __init__(self, data):
+        self.data = data
+        self.children = []
+    def __str__(self):
+        return str(self.data)
+
+def maxDataNode(tree):
+    """if tree is None:
+        return 0
+    max= 0
+    child = []
+    if (child != null && !child.isEmpty):
+        for (child in tree): 
+           maxNext = maxDataNode(tree)
+           if (maxNext > max): 
+               max = maxNext
+    
+    return max"""
+    if tree is None:
+        return 
+    maxNode=0
+    for child in tree.children:
+        maxNode=max(maxNode,maxDataNode(child))
+    return max(maxNode,tree.data)
+
+def createLevelWiseTree(arr):
+    root = treeNode(int(arr[0]))
+    q = [root]
+    size = len(arr)
+    i = 1
+    while i<size:
+        parent = q.pop(0)
+        childCount = int(arr[i])
+        i += 1
+        for j in range(0,childCount):
+            temp = treeNode(int(arr[i+j]))
+            parent.children.append(temp)
+            q.append(temp)
+        i += childCount
+    return root
+
+# Main
+arr = list(int(x) for x in input().strip().split(' '))
+tree = createLevelWiseTree(arr)
+print(maxDataNode(tree))
+
+
+Problem  3 :
+
+Height Of Tree
+Send Feedback
+Given a generic tree, find and return the height of given tree.
+Input format:
+The first line of input contains data of the nodes of the tree in level order form. The order is: data for root node, number of children to root node, data of each of child nodes and so on and so forth for each node. The data of the nodes of the tree is separated by space.  
+Output Format :
+The first and only line of output prints the height of the given generic tree.
+Constraints:
+Time Limit: 1 sec
+Sample Input 1:
+10 3 20 30 40 2 40 50 0 0 0 0 
+Sample Output 1:
+3
+
+Soln:
+
+class treeNode:
+    def __init__(self, data):
+        self.data = data
+        self.children = []
+    def __str__(self):
+        return str(self.data)
+
+def height(tree):
+    if not tree.children:
+        return 1
+    else:
+        return 1 + max(height(x) for x in tree.children)   
+    pass
+
+def createLevelWiseTree(arr):
+    root = treeNode(int(arr[0]))
+    q = [root]
+    size = len(arr)
+    i = 1
+    while i<size:
+        parent = q.pop(0)
+        childCount = int(arr[i])
+        i += 1
+        for j in range(0,childCount):
+            temp = treeNode(int(arr[i+j]))
+            parent.children.append(temp)
+            q.append(temp)
+        i += childCount
+    return root
+
+# Main
+arr = list(int(x) for x in input().strip().split(' '))
+tree = createLevelWiseTree(arr)
+print(height(tree))
+
+
+Problem  4 :
+
+Print Levelwise
+Send Feedback
+Given a generic tree, print the input tree in level wise order.
+For printing a node with data N, you need to follow the exact format -
+N:x1,x2,x3,...,xn
+where, N is data of any node present in the generic tree. x1, x2, x3, ...., xn are the children of node N. Note that there is no space in between.
+You need to print all nodes in the level order form in different lines.
+Input format :
+The first line of input contains data of the nodes of the tree in level order form. The order is: data for root node, number of children to root node, data of each of child nodes and so on and so forth for each node. The data of the nodes of the tree is separated by space.
+Output Format :
+The first and only line of output contains the elements of the tree in level wise order, as described in the task.
+Constraints:
+Time Limit: 1 sec
+Sample Input 1:
+10 3 20 30 40 2 40 50 0 0 0 0 
+Sample Output 1:
+10:20,30,40
+20:40,50
+30:
+40:
+40:
+50:
+
+Soln:
+
+import queue
+class treeNode:
+    def __init__(self, data):
+        self.data = data
+        self.children = []
+    def __str__(self):
+        return str(self.data)
+
+def printLevelWiseTree(root):
+    q = queue.Queue()
+    q.put(root)
+    while (not(q.empty())):
+        curr = q.get()
+        if len(curr.children)!=0:
+        	print(curr.data,end=":")
+        else:
+            print(curr.data,end=":")
+            print()
+        for c in curr.children:
+            q.put(c)
+            if c.data != curr.children[-1].data:
+                print(c.data,end=',')
+            else:
+                print(c.data)
+ 
+
+
+def createLevelWiseTree(arr):
+    root = treeNode(int(arr[0]))
+    q = [root]
+    size = len(arr)
+    i = 1
+    while i<size:
+        parent = q.pop(0)
+        childCount = int(arr[i])
+        i += 1
+        for j in range(0,childCount):
+            temp = treeNode(int(arr[i+j]))
+            parent.children.append(temp)
+            q.append(temp)
+        i += childCount
+    return root
+
+# Main
+arr = list(int(x) for x in input().strip().split(' '))
+tree = createLevelWiseTree(arr)
+printLevelWiseTree(tree)
+
+
+
+Problem  5 :
+
+Contains x
+Send Feedback
+Given a generic tree and an integer x, check if x is present in the given tree or not. Return true if x is present, return false otherwise.
+Input format :
+The first line of input contains data of the nodes of the tree in level order form. The order is: data for root node, number of children to root node, data of each of child nodes and so on and so forth for each node. The data of the nodes of the tree is separated by space.  
+The following line contains an integer, that denotes the value of x.
+Output format :
+The first and only line of output contains true, if x is present and false, otherwise.
+Constraints:
+Time Limit: 1 sec
+Sample Input 1 :
+10 3 20 30 40 2 40 50 0 0 0 0
+40 
+Sample Output 1 :
+true
+Sample Input 2 :
+10 3 20 30 40 2 40 50 0 0 0 0
+4 
+Sample Output 2:
+false
+
+Soln:
+
+class treeNode:
+    def __init__(self, data):
+        self.data = data
+        self.children = []
+    def __str__(self):
+        return str(self.data)
+
+def containsX(tree, x):
+    if tree is None: 
+       return False
+    if tree.data==x:
+        return True
+    elif tree.children: 
+    	for child1 in tree.children:
+            result = containsX(child1,x)
+            if result:
+                return True
+    return False
+    
+def createLevelWiseTree(arr):
+    root = treeNode(int(arr[0]))
+    q = [root]
+    size = len(arr)
+    i = 1
+    while i<size:
+        parent = q.pop(0)
+        childCount = int(arr[i])
+        i += 1
+        for j in range(0,childCount):
+            temp = treeNode(int(arr[i+j]))
+            parent.children.append(temp)
+            q.append(temp)
+        i += childCount
+    return root
+
+# Main
+x=int(input())
+arr = list(int(x) for x in input().strip().split(' '))
+tree = createLevelWiseTree(arr)
+if containsX(tree,x):
+    print('true')
+else:
+    print('false')
+
+Problem  6 :
+
+Count leaf Nodes
+Send Feedback
+Given a generic tree, count and return the number of leaf nodes present in the given tree.
+Input format :
+The first line of input contains data of the nodes of the tree in level order form. The order is: data for root node, number of children to root node, data of each of child nodes and so on and so forth for each node. The data of the nodes of the tree is separated by space.  
+Output Format :
+The first and only line of output prints the count of leaf nodes present in the given tree.
+Constraints:
+Time Limit: 1 sec
+Sample Input 1 :
+10 3 20 30 40 2 40 50 0 0 0 0 
+Sample Output 1 :
+4
+
+Soln:
+
+class treeNode:
+    def __init__(self, data):
+        self.data = data
+        self.children = []
+    def __str__(self):
+        return str(self.data)
+def leafNodeCount(tree):
+    #############################
+    # PLEASE ADD YOUR CODE HERE #
+    #############################
+    leaf=0
+    #base case
+    if tree is None:
+        return 0
+    if len(tree.children)==0:
+        return 1
+    
+    for child in tree.children:
+        leaf+=leafNodeCount(child)
+    return leaf
+
+"""
+def leafNodeCount(tree):
+    leaf_nodes = []
+    count_leaf_nodes_helper(leaf_nodes)
+    return len(leaf_nodes)
+    pass
+
+def count_leaf_nodes_helper(leaf_nodes):
+    if tree.children == []:
+            leaf_nodes.append(tree)
+    else:
+        for child in tree.children:
+            child.count_leaf_nodes_helper(leaf_nodes)
+"""
+
+
+def createLevelWiseTree(arr):
+    root = treeNode(int(arr[0]))
+    q = [root]
+    size = len(arr)
+    i = 1
+    while i<size:
+        parent = q.pop(0)
+        childCount = int(arr[i])
+        i += 1
+        for j in range(0,childCount):
+            temp = treeNode(int(arr[i+j]))
+            parent.children.append(temp)
+            q.append(temp)
+        i += childCount
+    return root
+
+# Main
+arr = list(int(x) for x in input().strip().split(' '))
+tree = createLevelWiseTree(arr)
+print(leafNodeCount(tree))
+
+
+
+
+Problem  7 :
+
+Node with maximum child sum
+Send Feedback
+Given a generic tree, find and return the node for which sum of its data and data of all its child nodes is maximum. In the sum, data of the node and data of its immediate child nodes has to be taken.
+Input format :
+The first line of input contains data of the nodes of the tree in level order form. The order is: data for root node, number of children to root node, data of each of child nodes and so on and so forth for each node. The data of the nodes of the tree is separated by space. 
+Output format :
+The first and only line of output contains the data of the node with maximum sum, as described in the task.
+Constraints:
+Time Limit: 1 sec
+Sample Input 1 :
+5 3 1 2 3 1 15 2 4 5 1 6 0 0 0 0
+Sample Output 1 :
+1
+
+Soln:
+
+class treeNode:
+    def __init__(self, data):
+        self.data = data
+        self.children = []
+
+def maxSumNode(tree,max=-10000,node=None):
+    if tree==None:
+        return node,max
+    sum=tree.data
+    for i in tree.children:
+        sum+=i.data
+    if node==None:
+        node=tree
+        max=sum
+    if sum > max:
+        node=tree
+        max=sum
+    for i in tree.children:
+        node,max=maxSumNode(i,max,node)
+    return node,max
+        
+  
+
+def createLevelWiseTree(arr):
+    root = treeNode(int(arr[0]))
+    q = [root]
+    size = len(arr)
+    i = 1
+    while i<size:
+        parent = q.pop(0)
+        childCount = int(arr[i])
+        i += 1
+        for j in range(0,childCount):
+            temp = treeNode(int(arr[i+j]))
+            parent.children.append(temp)
+            q.append(temp)
+        i += childCount
+    return root
+
+# Main
+arr = list(int(x) for x in input().strip().split(' '))
+tree = createLevelWiseTree(arr)
+temp, tempSum = maxSumNode(tree)
+print(temp.data)
+
+
+Problem  8 :
+
+Structurally identical
+Send Feedback
+Given two generic trees, return true if they are structurally identical. Otherwise return false.
+Structural Identical
+If the two given trees are made of nodes with the same values and the nodes are arranged in the same way, then the trees are called identical.  
+Input format :
+The first line of input contains data of the nodes of the first tree in level order form. The order is: data for root node, number of children to root node, data of each of child nodes and so on and so forth for each node. The data of the nodes of the tree is separated by space.  
+The following line of input contains data of the nodes of the second tree in level order form. The order is: data for root node, number of children to root node, data of each of child nodes and so on and so forth for each node. The data of the nodes of the tree is separated by space.
+Output format :
+The first and only line of output contains true, if the given trees are structurally identical and false, otherwise.
+Constraints:
+Time Limit: 1 sec
+Sample Input 1 :
+10 3 20 30 40 2 40 50 0 0 0 0 
+10 3 20 30 40 2 40 50 0 0 0 0
+Sample Output 1 :
+true
+Sample Input 2 :
+10 3 20 30 40 2 40 50 0 0 0 0 
+10 3 2 30 40 2 40 50 0 0 0 0
+Sample Output 2:
+false
+
+Soln:
+
+class treeNode:
+    def __init__(self, data):
+        self.data = data
+        self.children = []
+
+def isIdentical(tree1, tree2):
+    if tree1 is None and tree2 is None:
+        return True
+    else if(t1 && t2):
+        if (tree1.data==tree2.data):
+        b = True;
+          for(int i=0; i<n; i++)
+              b = b && contains(t1.getChildAt(i), t2.getChildAt(i));
+        return b
+    else:
+        
+        
+
+
+
+    pass
+
+def createLevelWiseTree(arr):
+    root = treeNode(int(arr[0]))
+    q = [root]
+    size = len(arr)
+    i = 1
+    while i<size:
+        parent = q.pop(0)
+        childCount = int(arr[i])
+        i += 1
+        for j in range(0,childCount):
+            temp = treeNode(int(arr[i+j]))
+            parent.children.append(temp)
+            q.append(temp)
+        i += childCount
+    return root
+
+# Main
+arr1 = list(int(x) for x in input().strip().split(' '))
+tree1 = createLevelWiseTree(arr1)
+arr2 = list(int(x) for x in input().strip().split(' '))
+tree2 = createLevelWiseTree(arr2)
+if isIdentical(tree1, tree2):
+    print('true')
+else:
+    print('false')
+
+
+
+
+Problem  9 :
+
+Next larger
+Send Feedback
+Given a generic tree and an integer n. Find and return the node with next larger element in the tree i.e. find a node with value just greater than n.
+Note: Return NULL if no node is present with the value greater than n.
+Input format :
+The first line of input contains data of the nodes of the tree in level order form. The order is: data for root node, number of children to root node, data of each of child nodes and so on and so forth for each node. The data of the nodes of the tree is separated by space.  
+The following line contains an integer, that denotes the value of n.
+Output format :
+The first and only line of output contains data of the node, whose data is just greater than n.
+Constraints:
+Time Limit: 1 sec
+Sample Input 1 :
+18
+10 3 20 30 40 2 40 50 0 0 0 0 
+Sample Output 1 :
+20
+Sample Input 2 :
+21
+10 3 20 30 40 2 40 50 0 0 0 0 
+Sample Output 2:
+30
+
+Soln:
+
+class treeNode:
+    def __init__(self, data):
+        self.data = data
+        self.children = []
+
+def nextLargest(tree, n):
+    if tree == None :
+        return None
+    node = None
+    if tree.data >n:
+        node = tree
+    for child in tree.children :
+        next = nextLargest(child,n)
+        if node != None and next != None :
+            if next.data < node.data :
+                node = next
+        elif node == None :
+            node = next
+    return node  
+
+def createLevelWiseTree(arr):
+    root = treeNode(int(arr[0]))
+    q = [root]
+    size = len(arr)
+    i = 1
+    while i<size:
+        parent = q.pop(0)
+        childCount = int(arr[i])
+        i += 1
+        for j in range(0,childCount):
+            temp = treeNode(int(arr[i+j]))
+            parent.children.append(temp)
+            q.append(temp)
+        i += childCount
+    return root
+
+# Main
+n = int(input())
+arr = list(int(x) for x in input().strip().split(' '))
+tree = createLevelWiseTree(arr)
+print(nextLargest(tree, n).data)
+
+
+Problem  10 :
+
+Replace with depth
+Send Feedback
+You are given a generic tree. You have to replace each node with its depth value. You just have to update the data of each node, there is no need to return or print anything.
+Input format :
+The first line of input contains data of the nodes of the tree in level order form. The order is: data for root node, number of children to root node, data of each of child nodes and so on and so forth for each node. The data of the nodes of the tree is separated by space.  
+Output format:
+The updated tree is printed level wise. Each level is printed in a new line. Please refer to sample output 1 for more details. 
+Constraints:
+Time Limit: 1 sec
+Sample Input 1:
+10 3 20 30 40 2 40 50 0 0 0 0 
+Sample Output 1:
+0 
+1 1 1 
+2 2
+
+Soln:
+
+class treeNode:
+    def __init__(self, data):
+        self.data = data
+        self.children = []
+
+def replacewithDepth(tree,depth=0):
+    if tree is None:
+        return None
+    
+    tree.data=depth
+        
+    for child in tree.children: 
+        replacewithDepth(child,depth+1)
+
+def createLevelWiseTree(arr):
+    root = treeNode(int(arr[0]))
+    q = [root]
+    size = len(arr)
+    i = 1
+    while i<size:
+        parent = q.pop(0)
+        childCount = int(arr[i])
+        i += 1
+        for j in range(0,childCount):
+            temp = treeNode(int(arr[i+j]))
+            parent.children.append(temp)
+            q.append(temp)
+        i += childCount
+    return root
+
+def printLevelAtNewLine(tree):
+    q = [tree]
+    newq = []
+    while q:
+        parent = q.pop(0)
+        print(parent.data, end=' ')
+        for child in parent.children:
+            newq.append(child)
+        if len(q)==0:
+            q = newq
+            newq = []
+            print()  # Move to next Line
+
+# Main
+arr = list(int(x) for x in input().strip().split(' '))
+tree = createLevelWiseTree(arr)
+replacewithDepth(tree)
+printLevelAtNewLine(tree)
