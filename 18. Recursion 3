@@ -1,0 +1,518 @@
+1. Return Subsequences
+Send Feedback
+Given a string (lets say of length n), return all the subsequences of the given string.
+Subsequences contain all the strings of length varying from 0 to n. But the order of characters should remain same as in the input string.
+Note : The order of subsequences are not important.
+Sample Input:
+abc
+Sample Output:
+"" (the double quotes just signifies an empty string, don't worry about the quotes)
+c 
+b 
+bc 
+a 
+ac 
+ab 
+abc
+
+
+soln:
+def subsequences(str):
+    if len(str) == 0:
+        output = []
+        output.append(" ")
+        return output
+    
+    smallerString = str[1:]
+    smallerOutput = subsequences(smallerString)
+    
+    output = []
+    for sub in smallerOutput:
+        output.append(sub)
+        
+    for sub in smallerOutput:
+        subs_with_zeroth_char = str[0] + sub
+        output.append(subs_with_zeroth_char)
+    
+    return output
+
+
+str = input()
+ans = subsequences(str)
+for ele in ans:
+    print(ele)
+
+2. Return Keypad
+Send Feedback
+Given an integer n, using phone keypad find out all the possible strings that can be made using digits of input n.
+Note : The order of strings are not important.
+Input Format :
+Integer n
+Output Format :
+All possible strings in different lines
+Constraints :
+1 <= n <= 10^6
+Sample Input:
+23
+Sample Output:
+ad
+ae
+af
+bd
+be
+bf
+cd
+ce
+cf
+
+soln: 
+
+def getString(d):
+    if d == 2:
+        return "abc"
+    if d == 3:
+        return "def"
+    if d == 4:
+        return "ghi"
+    if d == 5:
+        return "jkl"
+    if d == 6:
+        return "mno"
+    if d == 7:
+        return "pqrs"
+    if d == 8:
+        return "tuv"
+    if d == 9:
+        return "wxyz"
+    return " "   
+    
+def keypad(n):
+    if n == 0:
+        output = []
+        output.append("")
+        return output
+    
+    smallerNumber = n//10
+    remainder = n%10
+    
+    smallerOutput = keypad(smallerNumber)
+    text = getString(remainder)
+    
+    output = []
+    for s in smallerOutput:
+        for t in text:        
+            option = s + t
+            output.append(option)
+        
+    return output
+        
+
+n = int(input())
+ans = keypad(n)
+for s in ans:
+    print(s)
+    
+    
+    
+3. Print Subsequences
+Send Feedback
+Given a string (lets say of length n), print all the subsequences of the given string.
+Subsequences contain all the strings of length varying from 0 to n. But the order of characters should remain same as in the input string.
+Note :
+The order of subsequences are not important. Print every subsequence in new line.
+Input format
+The input only consists of one line which consists of a single string
+Output format
+The output consists of all subsequences of the input string where each subsequence is printed in a different line. The order of the subsequences doesn't matter
+Constraints
+1 <= |S| <= 15
+where |S| represents the length of the input string
+
+Time limit: 1 sec
+Sample Input:
+abc
+Sample Output:
+"" (the double quotes just signifies an empty string, don't worry about the quotes)
+c 
+b 
+bc 
+a 
+ac 
+ab 
+abc
+
+soln:
+
+def printSub(str, output):
+    if len(str) == 0:
+        print(output)
+        return
+
+    printSub(str[1:], output)
+    
+    # Including 0th char
+    printSub(str[1:], output+str[0])
+    
+s=input().strip()
+printSub(s,'')
+
+
+4. Print Keypad
+Send Feedback
+Given an integer n, using phone keypad find out and print all the possible strings that can be made using digits of input n.
+Note : The order of strings are not important. Just print different strings in new lines.
+Input Format :
+Integer n
+Output Format :
+All possible strings in different lines
+Constraints :
+1 <= n <= 10^6
+Sample Input:
+23
+Sample Output:
+ad
+ae
+af
+bd
+be
+bf
+cd
+ce
+cf
+
+
+soln:
+## Read input as specified in the question.
+## Print output as specified in the question.
+def getString(d):
+    if d == 2:
+        return "abc"
+    if d == 3:
+        return "def"
+    if d == 4:
+        return "ghi"
+    if d == 5:
+        return "jkl"
+    if d == 6:
+        return "mno"
+    if d == 7:
+        return "pqrs"
+    if d == 8:
+        return "tuv"
+    if d == 9:
+        return "wxyz"
+    return " "   
+    
+    
+
+def keypad(input):
+    if input == 0:
+        output = []
+        output.append("")
+        return output
+    
+    smallerInput = input//10
+    remainder = input%10    
+    
+    smallerOutput = keypad(smallerInput)
+    text = getString(remainder)
+        
+    output = []
+    for s in smallerOutput:
+        for c in text:
+            option = s + c
+            output.append(option)
+            
+    return output
+ 
+    
+n=int(input())
+li=keypad(n)
+for ele in li:
+    print(ele)
+    
+    
+    
+5. Return subsets sum to K
+Send Feedback
+Given an array A of size n and an integer K, return all subsets of A which sum to K.
+Subsets are of length varying from 0 to n, that contain elements of the array. But the order of elements should remain same as in the input array.
+Note : The order of subsets are not important.
+Input format :
+Line 1 : Integer n, Size of input array
+Line 2 : Array elements separated by space
+Line 3 : K 
+Constraints :
+1 <= n <= 20
+Sample Input :
+9 
+5 12 3 17 1 18 15 3 17 
+6
+Sample Output :
+3 3
+5 1
+
+soln: 
+
+import sys
+sys.setrecursionlimit(10 ** 8)
+
+
+def subsetsSumK(arr,k):
+  n=len(arr)
+  if n == 1:
+    if arr[0]==k:
+      output = [ [k] ]
+      return output
+    else:
+      output = []
+      return output
+  
+  output1 = subsetsSumK(arr[:-1], k)
+  output2 = subsetsSumK(arr[:-1], k - arr[-1])
+
+  for lst in output2:
+    lst.append(arr[-1])
+
+  if arr[-1] == k:
+    output2.append([k])
+
+  return output1 + output2
+
+
+
+6. Return subset of an array
+Send Feedback
+Given an integer array (of length n), find and return all the subsets of input array.
+Subsets are of length varying from 0 to n, that contain elements of the array. But the order of elements should remain same as in the input array.
+Note : The order of subsets are not important.
+Input format :
+
+Line 1 : Size of array
+
+Line 2 : Array elements (separated by space)
+
+Sample Input:
+3
+15 20 12
+Sample Output:
+[] (this just represents an empty array, don't worry about the square brackets)
+12 
+20 
+20 12 
+15 
+15 12 
+15 20 
+15 20 12 
+
+soln: 
+## Read input as specified in the question.
+## Print output as specified in the question.
+def subset(a):
+    if len(a)==0:
+        return [[]]
+    output=[]
+    smallOutput=subset(a[1:])
+    for i in range(len(smallOutput)):
+        output.append(smallOutput[i])
+    for i in range(len(smallOutput)):
+        newArr=[a[0]]
+        for j in smallOutput[i]:
+            newArr.append(j)
+        output.append(newArr)
+    return output
+
+
+k=int(input())
+arr=[int(i) for i in input().split()]
+sub=subset(arr)
+
+for i in sub:
+    for j in range(len(i)):
+        if j==len(i)-1:
+            print(i[j])
+        else:
+            print(i[j],end=" ")
+
+
+
+7. Return Permutations of a String
+Send Feedback
+Given a string, find and return all the possible permutations of the input string.
+Note : The order of permutations are not important.
+Sample Input :
+abc
+Sample Output :
+abc
+acb
+bac
+bca
+cab
+cba
+
+soln: 
+
+
+def permutations(string):
+    """
+    if len(string) == 0:
+        return 
+    output = []
+    for i in range(len(string)):
+        start = string[i]
+        remaining = string[:i] + string[i+1:]        
+        output.append(start + remaining )
+        remaining = string[i+1:] + string[:i]
+        output.append(start+remaining)
+    return output
+    """
+    if string=="":
+        return [""]
+    smallanswer=permutations(string[1:])
+    op=[]
+    for ele in smallanswer:
+        for i in range(len(ele)+1):
+            s=ele[:i]+string[0]+ele[i:]
+            op.append(s)
+    return op
+
+
+string = input()
+ans = permutations(string)
+for s in ans:
+    print(s)
+
+
+
+8. Print Subsets of Array
+Send Feedback
+Given an integer array (of length n), find and print all the subsets of input array.
+Subsets are of length varying from 0 to n, that contain elements of the array. But the order of elements should remain same as in the input array.
+Note : The order of subsets are not important. Just print the subsets in different lines.
+Input format :
+Line 1 : Integer n, Size of array
+Line 2 : Array elements (separated by space)
+Constraints :
+1 <= n <= 15
+Sample Input:
+3
+15 20 12
+Sample Output:
+[] (this just represents an empty array, don't worry about the square brackets)
+12 
+20 
+20 12 
+15 
+15 12 
+15 20 
+15 20 12 
+
+soln: 
+## Read input as specified in the question.
+## Print output as specified in the question.
+def subset(arr):
+  n = len(arr)
+  if n <= 0:
+    output = [ [] ]
+    return output
+
+  output = subset(arr[:n-1])
+  outputLen = len(output)
+  for i in range(outputLen):
+    output.append(output[i].copy())
+    output[outputLen + i].append(arr[n-1])
+
+  return output
+
+
+n= int(input())
+arr=[int(x) for x in input().split()]
+x=subset(arr)
+for i in range(len(x)):
+    for j in range(len(x[i])):
+        print(x[i][j],end=' ')
+    print()
+    
+    
+9. Print Subset Sum to K
+Send Feedback
+Given an array A and an integer K, print all subsets of A which sum to K.
+Subsets are of length varying from 0 to n, that contain elements of the array. But the order of elements should remain same as in the input array.
+Note : The order of subsets are not important. Just print them in different lines.
+Input format :
+Line 1 : Size of input array
+Line 2 : Array elements separated by space
+Line 3 : K 
+Sample Input:
+9 
+5 12 3 17 1 18 15 3 17 
+6
+Sample Output:
+3 3
+5 1
+
+soln: 
+
+## Read input as specified in the question.
+## Print output as specified in the question.
+def subset(arr,k):
+  n=len(arr)
+  if n == 1:
+    if arr[0]==k:
+      output = [ [k] ]
+      return output
+    else:
+      output = []
+      return output
+  
+  output1 = subset(arr[:-1], k)
+  output2 = subset(arr[:-1], k - arr[-1])
+
+  for lst in output2:
+    lst.append(arr[-1])
+
+  if arr[-1] == k:
+    output2.append([k])
+
+  return output1 + output2
+
+
+n= int(input())
+arr=[int(x) for x in input().split()]
+k=int(input())
+x=subset(arr,k)
+for i in range(len(x)):
+    for j in range(len(x[i])):
+        print(x[i][j],end=' ')
+    print()
+    
+    
+ 10. Print Permutations of a String
+Send Feedback
+Given a string, find and print all the possible permutations of the input string.
+Note : The order of permutations are not important. Just print them in different lines.
+Sample Input :
+abc
+Sample Output :
+abc
+acb
+bac
+bca
+cab
+cba
+
+
+soln: 
+from itertools import permutations 
+
+
+        
+def totalPermutations(str): 
+	
+	permList = permutations(str) 
+	for perm in list(permList): 
+		print (''.join(perm)) 
+
+string = input()  
+totalPermutations(string)
+
